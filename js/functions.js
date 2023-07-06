@@ -120,6 +120,7 @@ function newRound() {
   round.setState(round.state + 1);
   playerBattleSlot.className = "battle-slot";
   computerBattleSlot.className = "battle-slot";
+  computerBusy.setState(false);
   selectedFigure.setState();
   computerFigure.setState();
   resetTimer();
