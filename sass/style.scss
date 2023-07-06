@@ -49,6 +49,10 @@ input {
   color: $color-text;
 }
 
+input {
+  margin: 2rem 0;
+}
+
 h1 {
   letter-spacing: 0.2rem;
   font-size: 80px;
@@ -63,6 +67,12 @@ button {
   filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.4));
   color: $color-text;
   border-radius: 15px;
+  opacity: 1;
+  transition: opacity 0.4s;
+
+  &.hidden {
+    opacity: 0;
+  }
 
   &.large {
     font-size: 32px;
@@ -100,7 +110,7 @@ input {
   border-bottom: none;
   filter: drop-shadow(3px 3px 10px rgba(0, 0, 0, 0.5));
   position: relative;
-  width: 40%;
+  width: 30%;
   height: 40%;
   display: flex;
   align-items: center;
@@ -263,7 +273,6 @@ input {
     }
 
     &::after {
-      content: "";
       position: absolute;
       width: 3px;
       background-color: $color-text;
@@ -272,6 +281,17 @@ input {
       top: 10%;
       left: 50%;
       transform: translateX(-50%);
+    }
+
+    .timer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      font-size: 36px;
+      width: 200px;
+      height: 80px;
+      @include banner;
     }
   }
 

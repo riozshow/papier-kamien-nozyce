@@ -1,6 +1,9 @@
+window.onresize = () => {
+  repositionFigures();
+};
+
 gameStarted.addListener(displayBoard);
 gameStarted.addListener(loadGame);
-
 gameStarted.setState(false);
 
 startGameButton.onclick = () => {
@@ -23,21 +26,32 @@ playerSlots.forEach((slot) => {
   };
 });
 
+selectedFigure.addListener(repositionFigures);
 selectedFigure.addListener(() => {
-  repositionFigures();
+  if (selectedFigure.state && roundTime.state === initialRoundTime) {
+    startTimer();
+  }
+});
+selectedFigure.addListener(() => {
+  if (!selectedFigure.state) return;
   const figure = [...document.querySelectorAll(".figure.player")].find(
     (figure) => figure.code === selectedFigure.state.code
   );
-
   if (figure) {
     figure.classList.add("selected");
-    figure.moveTo(playerBattleSlot);
   }
 });
 
-window.onresize = () => {
-  repositionFigures();
-};
+computerFigure.addListener(repositionFigures);
+computerFigure.addListener(() => {
+  if (!computerFigure.state) return;
+  const figure = [...document.querySelectorAll(".figure.computer")].find(
+    (figure) => figure.code === computerFigure.state.code
+  );
+  if (figure) {
+    figure.classList.add("selected");
+  }
+});
 
 controlsReady.addListener(() => {
   if (controlsReady.state) {
@@ -54,4 +68,15 @@ score.addListener(() => {
 
 round.addListener(() => {
   roundInfo.innerHTML = round.state;
+});
+
+roundTime.addListener(() => {
+  timerBox.innerHTML = (Math.floor(roundTime.state / 100) / 10).toFixed(1);
+});
+
+roundTime.addListener(() => {
+  if (roundTime.state <= 0 && activeInterval.state) {
+    clearInterval(activeInterval.state);
+    finishRound();
+  }
 });

@@ -16,6 +16,9 @@ const computerSlots = [...document.querySelectorAll("[class^=slot-]")].filter((s
 );
 
 const playerBattleSlot = document.querySelector(".battle-slot.player");
+const computerBattleSlot = document.querySelector(".battle-slot.computer");
+
+const timerBox = document.querySelector(".timer");
 
 const playerScore = document.querySelectorAll("#player-score");
 const computerScore = document.querySelectorAll("#computer-score");
