@@ -1,22 +1,25 @@
 const FIGURES = [
   {
     code: 0,
-    icon: '<i class="fa-solid fa-hand"></i>',
+    innerHTML: '<i class="fa-solid fa-hand"></i>',
     name: "Papier",
+    className: "figure",
     beats: 1,
   },
 
   {
     code: 1,
-    icon: '<i class="fa-solid fa-hand-back-fist"></i>',
+    innerHTML: '<i class="fa-solid fa-hand-back-fist"></i>',
     name: "Kamień",
+    className: "figure",
     beats: 2,
   },
 
   {
     code: 2,
-    icon: '<i class="fa-solid fa-hand-scissors"></i>',
+    innerHTML: '<i class="fa-solid fa-hand-scissors"></i>',
     name: "Nożyce",
+    className: "figure",
     beats: 0,
   },
 ];

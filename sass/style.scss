@@ -8,6 +8,15 @@ $background-gradient: linear-gradient(to bottom, $color-blue-light 0%, $color-bl
 $button-gradient: linear-gradient(to bottom, white 0%, $color-blue-dark 300%);
 $font-default: "Bangers", cursive;
 
+@mixin banner {
+  background: linear-gradient(to bottom, white 0%, gray 350%);
+  border: 20px solid $color-blue-dark;
+  border-top: none;
+  border-bottom: none;
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
+  border-radius: 100px;
+}
+
 /* Global */
 
 *,
@@ -33,6 +42,7 @@ body {
 h1,
 h2,
 input {
+  text-align: center;
   -webkit-text-stroke: 0.25px white;
   text-stroke: 0.25px white;
   text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
@@ -41,12 +51,6 @@ input {
 
 h1 {
   letter-spacing: 0.2rem;
-  background: linear-gradient(to bottom, white 0%, gray 350%);
-  padding: 2.5rem 4rem;
-  border: 20px solid $color-blue-dark;
-  border-top: none;
-  border-bottom: none;
-  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
   font-size: 80px;
   border-radius: 100px;
 }
@@ -62,6 +66,11 @@ button {
 
   &.large {
     font-size: 32px;
+  }
+
+  &.exit {
+    font-size: 24px;
+    margin: 2rem 0;
   }
 }
 
@@ -98,7 +107,7 @@ input {
   justify-content: center;
   max-width: 1140px;
 
-  transition: width 0.5s, height 0.5s;
+  transition: width 0.4s, height 0.4s;
 
   &.full {
     width: 100%;
@@ -114,7 +123,6 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
   position: absolute;
   transform: scale(0);
   transition: transform 0.4s;
@@ -124,11 +132,78 @@ input {
   }
 }
 
-.title {
-  transition: font-size 0.4s;
+.top-bar {
+  margin-top: 1rem;
+  max-width: 1140px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15rem;
+  width: 100%;
 
-  &.small {
-    font-size: 40px !important;
+  i {
+    font-size: 60px !important;
+  }
+
+  h1 {
+    padding: 2rem 4rem;
+    @include banner;
+    transform: scale(1);
+    position: absolute;
+    transition: transform 0.4s;
+  }
+
+  &.game {
+    h1 {
+      transform: scale(0);
+    }
+
+    .player-bar {
+      transform: scale(1);
+    }
+  }
+
+  .player-bar {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1rem;
+    transform: scale(0);
+    transition: transform 0.4s;
+
+    i {
+      font-size: 40px;
+    }
+
+    h2 {
+      font-size: 48px;
+      margin: 0;
+    }
+
+    .game-status {
+      @include banner;
+      text-align: center;
+      padding: 2rem 4rem;
+      margin-bottom: 2rem;
+
+      .score {
+        font-size: 60px;
+        letter-spacing: 0.5rem;
+      }
+    }
+
+    .player-status {
+      width: 30%;
+      display: flex;
+      gap: 2rem;
+
+      &.right {
+        justify-content: end;
+      }
+    }
   }
 }
 
@@ -146,19 +221,15 @@ input {
 /* Game */
 
 .figure {
-  i {
-    pointer-events: none;
-  }
-
+  pointer-events: none;
   font-size: 5vh;
-  width: 5vh;
   height: 5vh;
   left: 50%;
   top: 50%;
   position: absolute;
   opacity: 0;
   transform: scale(1);
-  transition: opacity 0.3s, left 0.3s, top 0.3s, transform 0.3s;
+  transition: opacity 0.4s, left 0.4s, top 0.4s, transform 0.4s;
 
   &.loaded {
     opacity: 1;
@@ -170,35 +241,8 @@ input {
 }
 
 .game {
-
-  .points-bar {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-
-    i {
-      font-size: 40px;
-    }
-
-    h2 {
-      font-size: 32px;
-      margin: 0;
-    }
-
-    .points-status {
-      width: 30%;
-      display: flex;
-      gap: 2rem;
-
-      &.right {
-        justify-content: end;
-      }
-    }
-  }
-
   .battle-area {
+    margin: 3rem;
     width: 100%;
     height: 100%;
     border: 2px solid $color-text;
@@ -206,7 +250,7 @@ input {
     background-color: rgba(255, 255, 255, 0.4);
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 
     .battle-slot {
@@ -232,22 +276,38 @@ input {
   }
 
   .controls {
-    height: 50%;
-    padding: 1rem 0;
+    height: 40%;
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 2rem;
+    cursor: pointer;
 
     [class^="slot-"] {
+      opacity: 0.3;
+      pointer-events: none;
+      cursor: pointer;
+      transform: scale(1);
       height: 100%;
       aspect-ratio: 1/1;
       background: $button-gradient;
       border-radius: 100%;
       border: 5px solid $color-text;
       filter: drop-shadow(3px 3px 10px rgba(0, 0, 0, 0.5));
+      transition: transform 0.2s, opacity 0.2s;
+
+      &.ready {
+        pointer-events: all;
+        opacity: 1;
+      }
+
+      &:hover {
+        transform: scale(1.2);
+      }
+
+      &:active {
+        transform: scale(1.3);
+      }
     }
   }
 }
-
-

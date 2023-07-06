@@ -13,7 +13,23 @@
 </head>
 
 <body>
-  <h1 class="title">Papier Kamień Nożyce</h1>
+  <div class="top-bar">
+    <h1>Papier Kamień Nożyce</h1>
+    <div class="player-bar">
+      <div class="player-status">
+        <i class="fa-solid fa-desktop"></i>
+        <h2>Komputer</h2>
+      </div>
+      <div class="game-status">
+        <h2>Runda <span id="round">1</span></h2>
+        <h2 class="score"><span id="computer-score">0</span>:<span id="player-score">0</span></h2>
+      </div>
+      <div class="player-status right">
+        <h2>Gracz</h2>
+        <i class="fa-solid fa-user"></i>
+      </div>
+    </div>
+  </div>
   <div class="board">
     <div class="board-content welcome">
       <h2>Wybierz liczbę rund</h2>
@@ -21,34 +37,23 @@
       <button id="start-game" class="large" type="button">Graj!</button>
     </div>
     <div class="board-content game">
-      <div class="points-bar">
-        <div class="points-status">
-          <i class="fa-solid fa-desktop"></i>
-          <h2>Komputer</h2>
-          <h3 id="points-computer">0</h3>
-        </div>
-        <div class="game-status">
-          <h3>Runda</h3>
-          <h2 class="score">3:2</h2>
-        </div>
-        <div class="points-status right">
-          <h3 id="points-player">0</h3>
-          <h2>Gracz</h2>
-          <i class="fa-solid fa-user"></i>
-        </div>
+      <div class="controls">
+        <div class="slot-0 computer"></div>
+        <div class="slot-1 computer"></div>
+        <div class="slot-2 computer"></div>
       </div>
       <div class="battle-area">
         <div class="battle-slot computer"></div>
         <div class="battle-slot player"></div>
       </div>
       <div class="controls">
-        <div class="slot-0"></div>
-        <div class="slot-1"></div>
-        <div class="slot-2"></div>
+        <div class="slot-0 player"></div>
+        <div class="slot-1 player"></div>
+        <div class="slot-2 player"></div>
       </div>
-      <button id="exit-game" type="button">Wyjdź</button>
     </div>
   </div>
+  <button id="exit-game" type="button" class="exit">Wyjdź</button>
   <script src="./js/elements.js"></script>
   <script src="./js/figures.js"></script>
   <script src="./js/state.js"></script>

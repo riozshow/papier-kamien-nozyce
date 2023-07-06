@@ -24,3 +24,6 @@ function useState(value) {
 const gameStarted = useState(false);
 const controlsReady = useState(false);
 const selectedFigure = useState();
+
+const score = useState({ computer: 0, player: 0 });
+const round = useState(1);

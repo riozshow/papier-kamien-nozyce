@@ -8,10 +8,10 @@ function displayBoard() {
     boardContent.classList.add("show");
     if (boardContent === game) {
       board.classList.add("full");
-      title.classList.add("small");
+      topBar.classList.add("game");
     } else {
       board.classList.remove("full");
-      title.classList.remove("small");
+      topBar.classList.remove("game");
       controlsReady.setState(false);
     }
   };
@@ -22,11 +22,11 @@ function displayBoard() {
 
 function createFigureElement(figure) {
   const moveTo = (element) => {
-    setTimeout(() => {
-      const elementPosition = element.getBoundingClientRect();
-      div.style.left = `${elementPosition.left + element.offsetWidth / 2 - div.offsetWidth / 2}px`;
-      div.style.top = `${elementPosition.top + element.offsetHeight / 2 - div.offsetHeight / 4}px`;
-    }, timeOffset)
+    const elementPosition = element.getBoundingClientRect();
+    div.style.left = `${
+      elementPosition.left + element.offsetWidth / 2 - div.offsetWidth / 2 + 5
+    }px`;
+    div.style.top = `${elementPosition.top + element.offsetHeight / 2 - div.offsetHeight / 2}px`;
   };
 
   const view = (show) => {
@@ -37,50 +37,50 @@ function createFigureElement(figure) {
 
   const div = document.createElement("div");
   const timeOffset = 10;
-  
+
   Object.assign(div, figure);
-  div.className = "figure";
-  div.innerHTML = figure.icon;
   div.moveTo = moveTo;
   div.view = view;
   return div;
 }
 
-function selectFigure(e) {
+function selectFigure(figure) {
   if (!controlsReady.state) return;
-  selectedFigure.setState(e.target);
+  selectedFigure.setState(figure);
 }
 
 function loadControls() {
-  document.querySelectorAll(".figure").forEach((figure) => {
+  document.querySelectorAll(".figure.player").forEach((figure) => {
     figure.remove();
   });
 
   FIGURES.map((figure) => {
     const figureElement = createFigureElement(figure);
-    figureElement.onclick = (e) => {
-      selectFigure(e);
-    };
+    figureElement.classList.add("player");
     document.body.append(figureElement);
   });
 
   board.ontransitionend = () => {
     repositionFigures();
-  }
-
-  controlsReady.setState(true);
+    controlsReady.setState(true);
+    board.ontransitionend = null;
+  };
 }
 
 function toggleFiguresVisibility(on) {
-  document.querySelectorAll(".figure").forEach((figure) => {
+  document.querySelectorAll(".figure.player").forEach((figure) => {
     figure.view(on);
   });
 }
 
 function repositionFigures() {
-  document.querySelectorAll(".figure").forEach((figure) => {
-    const slot = document.querySelector(`.slot-${figure.code}`);
-    figure.classList.remove('selected')
+  document.querySelectorAll(".figure.player").forEach((figure) => {
+    if (figure === selectedFigure.state) {
+      figure.moveTo(playerBattleSlot);
+      return;
+    }
+    const slot = playerSlots.find((slot) => slot.classList.contains(`slot-${figure.code}`));
+    figure.classList.remove("selected");
     figure.moveTo(slot);
   });
 }
@@ -96,3 +96,5 @@ function loadGame() {
   loadControls();
   toggleFiguresVisibility(true);
 }
+
+/* Computer Move */
