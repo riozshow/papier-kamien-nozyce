@@ -63,7 +63,8 @@ function loadControls() {
     document.body.append(computerFigureElement);
   });
 
-  board.ontransitionend = () => {
+  board.ontransitionend = (e) => {
+    if (e.target.className !== "board full") return;
     repositionFigures();
     controlsReady.setState(true);
     board.ontransitionend = null;
