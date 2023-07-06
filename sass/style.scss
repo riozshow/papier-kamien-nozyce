@@ -85,15 +85,14 @@ input {
 .board {
   max-width: 1140px;
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 4rem;
   border-radius: 40px;
   border: 15px solid $color-blue-dark;
   border-top: none;
   border-bottom: none;
   filter: drop-shadow(3px 3px 10px rgba(0, 0, 0, 0.5));
   position: relative;
-  width: 30%;
-  height: 30%;
+  width: 40%;
+  height: 40%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,7 +114,7 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
   position: absolute;
   transform: scale(0);
   transition: transform 0.4s;
@@ -151,20 +150,27 @@ input {
     pointer-events: none;
   }
 
-  margin-top: 10px;
-  font-size: 50px;
+  font-size: 5vh;
+  width: 5vh;
+  height: 5vh;
   left: 50%;
   top: 50%;
   position: absolute;
   opacity: 0;
-  transition: opacity 0.3s, left 0.3s, top 0.3s;
+  transform: scale(1);
+  transition: opacity 0.3s, left 0.3s, top 0.3s, transform 0.3s;
 
   &.loaded {
     opacity: 1;
   }
+
+  &.selected {
+    transform: scale(2);
+  }
 }
 
 .game {
+
   .points-bar {
     width: 100%;
     display: flex;
@@ -226,27 +232,22 @@ input {
   }
 
   .controls {
-    height: 30%;
+    height: 50%;
+    padding: 1rem 0;
     width: 100%;
     display: flex;
     justify-content: center;
+    gap: 2rem;
 
-    .figures {
-      display: flex;
-      gap: 10%;
-      justify-content: center;
-      width: 100%;
+    [class^="slot-"] {
       height: 100%;
-      position: relative;
-
-      [class^="slot-"] {
-        height: 100%;
-        aspect-ratio: 1/1;
-        background: $button-gradient;
-        border-radius: 100%;
-        border: 5px solid $color-text;
-        filter: drop-shadow(3px 3px 10px rgba(0, 0, 0, 0.5));
-      }
+      aspect-ratio: 1/1;
+      background: $button-gradient;
+      border-radius: 100%;
+      border: 5px solid $color-text;
+      filter: drop-shadow(3px 3px 10px rgba(0, 0, 0, 0.5));
     }
   }
 }
+
+

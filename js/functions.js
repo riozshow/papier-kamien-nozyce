@@ -22,18 +22,22 @@ function displayBoard() {
 
 function createFigureElement(figure) {
   const moveTo = (element) => {
-    const elementPosition = element.getBoundingClientRect();
-    div.style.left = `${elementPosition.left + elementPosition.width / 2 - div.offsetWidth / 2}px`;
-    div.style.top = `${elementPosition.top + elementPosition.height / 2 - div.offsetHeight / 2}px`;
+    setTimeout(() => {
+      const elementPosition = element.getBoundingClientRect();
+      div.style.left = `${elementPosition.left + element.offsetWidth / 2 - div.offsetWidth / 2}px`;
+      div.style.top = `${elementPosition.top + element.offsetHeight / 2 - div.offsetHeight / 4}px`;
+    }, timeOffset)
   };
 
   const view = (show) => {
     setTimeout(() => {
       show ? div.classList.add("loaded") : div.classList.remove("loaded");
-    }, 50);
+    }, timeOffset);
   };
 
   const div = document.createElement("div");
+  const timeOffset = 10;
+  
   Object.assign(div, figure);
   div.className = "figure";
   div.innerHTML = figure.icon;
@@ -62,8 +66,9 @@ function loadControls() {
 
   board.ontransitionend = () => {
     repositionFigures();
-    controlsReady.setState(true);
-  };
+  }
+
+  controlsReady.setState(true);
 }
 
 function toggleFiguresVisibility(on) {
@@ -75,6 +80,7 @@ function toggleFiguresVisibility(on) {
 function repositionFigures() {
   document.querySelectorAll(".figure").forEach((figure) => {
     const slot = document.querySelector(`.slot-${figure.code}`);
+    figure.classList.remove('selected')
     figure.moveTo(slot);
   });
 }

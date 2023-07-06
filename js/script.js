@@ -18,6 +18,7 @@ selectedFigure.addListener(() => {
   );
 
   if (figure) {
+    figure.classList.add('selected')
     figure.moveTo(playerBattleSlot);
   }
 });

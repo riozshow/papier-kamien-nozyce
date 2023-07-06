@@ -18,21 +18,21 @@
     <div class="board-content welcome">
       <h2>Wybierz liczbę rund</h2>
       <input type="number" value="5">
-      <button id="start-game" class="large">Graj!</button>
+      <button id="start-game" class="large" type="button">Graj!</button>
     </div>
     <div class="board-content game">
       <div class="points-bar">
         <div class="points-status">
           <i class="fa-solid fa-desktop"></i>
           <h2>Komputer</h2>
-          <h3 id="points-computer"></h3>
+          <h3 id="points-computer">0</h3>
         </div>
         <div class="game-status">
           <h3>Runda</h3>
           <h2 class="score">3:2</h2>
         </div>
         <div class="points-status right">
-          <h3 id="points-player"></h3>
+          <h3 id="points-player">0</h3>
           <h2>Gracz</h2>
           <i class="fa-solid fa-user"></i>
         </div>
@@ -42,13 +42,11 @@
         <div class="battle-slot player"></div>
       </div>
       <div class="controls">
-        <div class="figures">
-          <div class="slot-0"></div>
-          <div class="slot-1"></div>
-          <div class="slot-2"></div>
-        </div>
+        <div class="slot-0"></div>
+        <div class="slot-1"></div>
+        <div class="slot-2"></div>
       </div>
-      <button id="exit-game">Wyjdź</button>
+      <button id="exit-game" type="button">Wyjdź</button>
     </div>
   </div>
   <script src="./js/elements.js"></script>
