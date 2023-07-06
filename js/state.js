@@ -17,8 +17,10 @@ function useState(value) {
 
   const listeners = [];
   const stateObject = { state: value, addListener, setState };
-  
+
   return stateObject;
 }
 
 const gameStarted = useState(false);
+const controlsReady = useState(false);
+const selectedFigure = useState();
