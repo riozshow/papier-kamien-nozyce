@@ -4,6 +4,8 @@ const board = document.querySelector(".board");
 const welcome = document.querySelector(".welcome");
 const game = document.querySelector(".game");
 
+const roundsBox = document.querySelector("input");
+
 const startGameButton = document.querySelector("#start-game");
 const exitGameButton = document.querySelector("#exit-game");
 
@@ -20,6 +22,9 @@ const computerBattleSlot = document.querySelector(".battle-slot.computer");
 
 const timerBox = document.querySelector(".timer");
 
-const playerScore = document.querySelectorAll("#player-score");
-const computerScore = document.querySelectorAll("#computer-score");
-const roundInfo = document.querySelectorAll("#round");
+const playerScore = document.querySelector("#player-score");
+const computerScore = document.querySelector("#computer-score");
+const roundInfo = document.querySelector("#round");
+
+const finalScreen = document.querySelector(".final-screen");
+const finalHeader = document.querySelector(".final-header");

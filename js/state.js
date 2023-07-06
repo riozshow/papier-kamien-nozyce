@@ -27,6 +27,8 @@ function useState(value) {
 }
 
 const gameStarted = useState(false);
+const totalRounds = useState(5);
+
 const controlsReady = useState(false);
 
 const computerBusy = useState(false);

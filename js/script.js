@@ -42,7 +42,7 @@ selectedFigure.addListener(() => {
   }
 });
 
-computerFigure.addListener(repositionFigures);
+computerFigure.addListener(() => repositionFigures(true));
 computerFigure.addListener(() => {
   if (!computerFigure.state) return;
   const figure = [...document.querySelectorAll(".figure.computer")].find(
@@ -80,3 +80,7 @@ roundTime.addListener(() => {
     finishRound();
   }
 });
+
+roundsBox.onchange = (e) => {
+  totalRounds.setState(e.target.value);
+};

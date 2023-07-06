@@ -76,16 +76,18 @@ function toggleFiguresVisibility(on) {
   });
 }
 
-function repositionFigures() {
-  document.querySelectorAll(".figure.player").forEach((figure) => {
-    if (figure === selectedFigure.state) {
-      figure.moveTo(playerBattleSlot);
-      return;
-    }
-    const slot = playerSlots.find((slot) => slot.classList.contains(`slot-${figure.code}`));
-    figure.classList.remove("selected");
-    figure.moveTo(slot);
-  });
+function repositionFigures(computer) {
+  if (!computer) {
+    document.querySelectorAll(".figure.player").forEach((figure) => {
+      if (figure === selectedFigure.state) {
+        figure.moveTo(playerBattleSlot);
+        return;
+      }
+      const slot = playerSlots.find((slot) => slot.classList.contains(`slot-${figure.code}`));
+      figure.classList.remove("selected");
+      figure.moveTo(slot);
+    });
+  }
 
   document.querySelectorAll(".figure.computer").forEach((figure) => {
     if (figure === computerFigure.state) {
@@ -106,15 +108,31 @@ function loadGame() {
     return;
   }
 
-  resetTimer();
+  score.setState({ computer: 0, player: 0 });
+  round.setState(0);
+
   loadControls();
   toggleFiguresVisibility(true);
+  newRound();
+}
+
+function newRound() {
+  round.setState(round.state + 1);
+  playerBattleSlot.className = "battle-slot";
+  computerBattleSlot.className = "battle-slot";
+  selectedFigure.setState();
+  computerFigure.setState();
+  resetTimer();
+  if (round.state > totalRounds.state) {
+    round.setState(round.state - 1);
+    finishGame();
+  }
 }
 
 /* Computer Move */
 
 function getReactionTime() {
-  return Math.random() * 1000 + 1000;
+  return Math.random() * 1500 + 700;
 }
 
 function triggerComputerMoves() {
@@ -136,6 +154,7 @@ function triggerComputerMoves() {
 }
 
 function computerBleef() {
+  if (!selectedFigure.state) return;
   const playerFigure = FIGURES.find((figure) => figure.code == selectedFigure.state.code);
   const bleefFigure = FIGURES.find((figure) => figure.code === playerFigure.beats);
   const bleefElement = [...document.querySelectorAll(".figure.computer")].find(
@@ -151,6 +170,7 @@ function computerBleef() {
 }
 
 function computerAttack() {
+  if (!selectedFigure.state) return;
   if (roundTime.state === 0) {
     computerBusy.setState(false);
     return;
@@ -187,4 +207,84 @@ function resetTimer() {
 
 function finishRound() {
   controlsReady.setState(false);
+  getRoundResult();
+}
+
+/* Round Result */
+
+function getRoundResult() {
+  if (!selectedFigure.state || !computerFigure.state) return;
+  const playerSelection = FIGURES.find((figure) => figure.code == selectedFigure.state.code);
+  const computerSelection = FIGURES.find((figure) => figure.code == computerFigure.state.code);
+
+  if (playerSelection.beats === computerSelection.code) {
+    winRound();
+  } else if (playerSelection.code === computerSelection.beats) {
+    loseRound();
+  } else drawRound();
+
+  setTimeout(() => {
+    newRound();
+    controlsReady.setState(true);
+  }, 2000);
+}
+
+function winRound() {
+  playerBattleSlot.classList.add("win");
+  computerBattleSlot.classList.add("lose");
+  score.state.player++;
+  score.setState(score.state);
+}
+
+function loseRound() {
+  playerBattleSlot.classList.add("lose");
+  computerBattleSlot.classList.add("win");
+  score.state.computer++;
+  score.setState(score.state);
+}
+
+function drawRound() {
+  playerBattleSlot.classList.add("draw");
+  computerBattleSlot.classList.add("draw");
+}
+
+/* Finish Game */
+
+function finishGame() {
+  if (score.state.player > score.state.computer) {
+    showFinalScreen(0);
+  } else if (score.state.player < score.state.computer) {
+    showFinalScreen(1);
+  } else showFinalScreen(2);
+}
+
+function showFinalScreen(type) {
+  switch (type) {
+    case 0: {
+      finalHeader.innerHTML = "Wygrana!";
+      finalScreen.classList.add("win");
+      break;
+    }
+    case 1: {
+      finalHeader.innerHTML = "Przegrana!";
+      finalScreen.classList.add("lose");
+      break;
+    }
+    case 2: {
+      finalHeader.innerHTML = "Remis!";
+      finalScreen.classList.add("draw");
+      break;
+    }
+  }
+
+  finalScreen.classList.add("show");
+
+  finalScreen.onclick = () => {
+    finalScreen.ontransitionend = () => {
+      finalScreen.className = "final-screen";
+      finalScreen.ontransitionend = null;
+    };
+    finalScreen.classList.remove("show");
+    gameStarted.setState(false);
+  };
 }
